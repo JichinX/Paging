@@ -22,30 +22,30 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
     @Override
     public void loadInitial(@NonNull LoadInitialParams<KEY> params, @NonNull LoadInitialCallback<KEY, VALUE> callback) {
         mStatusLiveData.postValue(ListStatus.INITIALIZE);
-        onLoadInitial(params, new ListStatusPageKeyedLoadInitialCallback(callback, mStatusLiveData));
+        onLoadInitial(params, new ListStatusPageKeyedLoadInitialCallback<>(callback, mStatusLiveData));
     }
 
 
     @Override
     public void loadBefore(@NonNull LoadParams<KEY> params, @NonNull LoadCallback<KEY, VALUE> callback) {
         mStatusLiveData.postValue(ListStatus.LOAD_MORE);
-        onLoadBefore(params, new ListStatusPageKeyedLoadBeforeCallback(callback, mStatusLiveData));
+        onLoadBefore(params, new ListStatusPageKeyedLoadBeforeCallback<>(callback, mStatusLiveData));
     }
 
 
     @Override
     public void loadAfter(@NonNull LoadParams<KEY> params, @NonNull LoadCallback<KEY, VALUE> callback) {
         mStatusLiveData.postValue(ListStatus.LOAD_MORE);
-        onLoadAfter(params, new ListStatusPageKeyedLoadAfterCallback(callback, mStatusLiveData));
+        onLoadAfter(params, new ListStatusPageKeyedLoadAfterCallback<>(callback, mStatusLiveData));
     }
 
-    protected abstract void onLoadInitial(LoadInitialParams<KEY> pParams, ListStatusPageKeyedLoadInitialCallback pCallback);
+    protected abstract void onLoadInitial(LoadInitialParams<KEY> pParams, ListStatusPageKeyedLoadInitialCallback<KEY, VALUE> pCallback);
 
-    protected abstract void onLoadBefore(LoadParams<KEY> pParams, ListStatusPageKeyedLoadBeforeCallback pCallback);
+    protected abstract void onLoadBefore(LoadParams<KEY> pParams, ListStatusPageKeyedLoadBeforeCallback<KEY, VALUE> pCallback);
 
-    protected abstract void onLoadAfter(LoadParams<KEY> pParams, ListStatusPageKeyedLoadAfterCallback pCallback);
+    protected abstract void onLoadAfter(LoadParams<KEY> pParams, ListStatusPageKeyedLoadAfterCallback<KEY, VALUE> pCallback);
 
-    private class ListStatusPageKeyedLoadInitialCallback extends PageKeyedDataSource.LoadInitialCallback<KEY, VALUE> {
+    public static class ListStatusPageKeyedLoadInitialCallback<KEY, VALUE> extends PageKeyedDataSource.LoadInitialCallback<KEY, VALUE> {
         private LoadInitialCallback<KEY, VALUE> mCallback;
         private MutableLiveData<ListStatus> mStatusLiveData;
 
@@ -75,7 +75,7 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
         }
     }
 
-    private class ListStatusPageKeyedLoadBeforeCallback extends PageKeyedDataSource.LoadCallback<KEY, VALUE> {
+    public static class ListStatusPageKeyedLoadBeforeCallback<KEY, VALUE> extends PageKeyedDataSource.LoadCallback<KEY, VALUE> {
         private LoadCallback<KEY, VALUE> mCallback;
         private MutableLiveData<ListStatus> mStatusLiveData;
 
@@ -96,7 +96,7 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
 
     }
 
-    private class ListStatusPageKeyedLoadAfterCallback extends PageKeyedDataSource.LoadCallback<KEY, VALUE> {
+    public static class ListStatusPageKeyedLoadAfterCallback<KEY, VALUE> extends PageKeyedDataSource.LoadCallback<KEY, VALUE> {
         private LoadCallback<KEY, VALUE> mCallback;
         private MutableLiveData<ListStatus> mStatusLiveData;
 
