@@ -45,21 +45,14 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
 
     protected abstract void onLoadAfter(LoadParams<KEY> pParams, ListStatusPageKeyedLoadAfterCallback<KEY, VALUE> pCallback);
 
-    public static class ListStatusPageKeyedLoadInitialCallback<KEY, VALUE> extends PageKeyedDataSource.LoadInitialCallback<KEY, VALUE> {
+
+    public static class ListStatusPageKeyedLoadInitialCallback<KEY, VALUE> implements ListStatusPageKeyedDataCallBack<KEY, VALUE> {
         private LoadInitialCallback<KEY, VALUE> mCallback;
         private MutableLiveData<ListStatus> mStatusLiveData;
 
         public ListStatusPageKeyedLoadInitialCallback(LoadInitialCallback<KEY, VALUE> pCallback, MutableLiveData<ListStatus> pData) {
             mCallback = pCallback;
             mStatusLiveData = pData;
-        }
-
-        @Override
-        public void onResult(@NonNull List<VALUE> data, int position, int totalCount, @Nullable KEY previousPageKey, @Nullable KEY nextPageKey) {
-            mCallback.onResult(data, position, totalCount, previousPageKey, nextPageKey);
-            if (!data.isEmpty()) {
-                mStatusLiveData.postValue(ListStatus.INITIALIZE_SUCCESS);
-            }
         }
 
         @Override
@@ -70,12 +63,13 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
             }
         }
 
-        public void onError() {
+        @Override
+        public void onError(String message) {
             mStatusLiveData.postValue(ListStatus.INITIAL_ERROR);
         }
     }
 
-    public static class ListStatusPageKeyedLoadBeforeCallback<KEY, VALUE> extends PageKeyedDataSource.LoadCallback<KEY, VALUE> {
+    public static class ListStatusPageKeyedLoadBeforeCallback<KEY, VALUE> implements ListStatusPageKeyedDataCallBack<KEY, VALUE> {
         private LoadCallback<KEY, VALUE> mCallback;
         private MutableLiveData<ListStatus> mStatusLiveData;
 
@@ -85,18 +79,18 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
         }
 
         @Override
-        public void onResult(@NonNull List<VALUE> data, @Nullable KEY adjacentPageKey) {
-            mCallback.onResult(data, adjacentPageKey);
+        public void onResult(@NonNull List<VALUE> pData, KEY pPage, KEY pNext) {
+            mCallback.onResult(pData, pPage);
             mStatusLiveData.postValue(ListStatus.SUCCESS);
         }
 
-        public void onError() {
+        @Override
+        public void onError(String message) {
             mStatusLiveData.postValue(ListStatus.ERROR);
         }
-
     }
 
-    public static class ListStatusPageKeyedLoadAfterCallback<KEY, VALUE> extends PageKeyedDataSource.LoadCallback<KEY, VALUE> {
+    public static class ListStatusPageKeyedLoadAfterCallback<KEY, VALUE> implements ListStatusPageKeyedDataCallBack<KEY, VALUE> {
         private LoadCallback<KEY, VALUE> mCallback;
         private MutableLiveData<ListStatus> mStatusLiveData;
 
@@ -106,12 +100,13 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
         }
 
         @Override
-        public void onResult(@NonNull List<VALUE> data, @Nullable KEY adjacentPageKey) {
-            mCallback.onResult(data, adjacentPageKey);
+        public void onResult(@NonNull List<VALUE> pData, KEY pPage, KEY pNext) {
+            mCallback.onResult(pData, pPage);
             mStatusLiveData.postValue(ListStatus.SUCCESS);
         }
 
-        public void onError() {
+        @Override
+        public void onError(String message) {
             mStatusLiveData.postValue(ListStatus.ERROR);
         }
     }
