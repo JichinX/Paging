@@ -80,7 +80,7 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
 
         @Override
         public void onResult(@NonNull List<VALUE> pData, KEY pPage, KEY pNext) {
-            mCallback.onResult(pData, pPage);
+            mCallback.onResult(pData, pNext);
             mStatusLiveData.postValue(ListStatus.SUCCESS);
         }
 
@@ -101,7 +101,7 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
 
         @Override
         public void onResult(@NonNull List<VALUE> pData, KEY pPage, KEY pNext) {
-            mCallback.onResult(pData, pPage);
+            mCallback.onResult(pData, pNext);
             mStatusLiveData.postValue(ListStatus.SUCCESS);
         }
 

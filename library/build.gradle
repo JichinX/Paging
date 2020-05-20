@@ -33,7 +33,7 @@ dependencies {
     implementation 'androidx.paging:paging-common:2.1.2'
     implementation 'androidx.paging:paging-rxjava2:2.1.2'
 
-    implementation 'com.github.xujichang:Common:1.0.0-alpha01'
+    implementation 'com.github.xujichang:Common:1.0.0-alpha02'
 
 }
 //apply from: 'https://raw.githubusercontent.com/xujichang/push_gradle/master/upload.gradle'
