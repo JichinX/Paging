@@ -28,8 +28,8 @@ public abstract class ListStatusPageKeyedDataSource<KEY, VALUE> extends PageKeye
 
     @Override
     public void loadBefore(@NonNull LoadParams<KEY> params, @NonNull LoadCallback<KEY, VALUE> callback) {
-        mStatusLiveData.postValue(ListStatus.LOAD_MORE);
-        onLoadBefore(params, new ListStatusPageKeyedLoadBeforeCallback<>(callback, mStatusLiveData));
+//        mStatusLiveData.postValue(ListStatus.LOAD_MORE);
+//        onLoadBefore(params, new ListStatusPageKeyedLoadBeforeCallback<>(callback, mStatusLiveData));
     }
 
 

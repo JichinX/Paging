@@ -16,10 +16,6 @@ public abstract class SimplePageKeyedDataSource<KEY, VALUE> extends
   private MutableLiveData<Boolean> mRefreshing;
   private MutableLiveData<AppNetworkState> mState;
 
-  public SimplePageKeyedDataSource(DataSourceFactory<KEY, VALUE> pFactory) {
-    mRefreshing = pFactory.getRefreshing();
-    mState = pFactory.getState();
-  }
 
 
   @Override
